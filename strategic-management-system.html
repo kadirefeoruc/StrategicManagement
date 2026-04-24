@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belediye Stratejik Yönetim Sistemi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #1a3a52 0%, #2c5aa0 100%);
+            color: white;
+            padding: 16px 20px;
+            margin-bottom: 0;
+            border-radius: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left h1 {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .header-left p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .header-right {
+            font-size: 11px;
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        .folder-btn {
+            padding: 8px 16px;
+            background: #10b981;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            margin-left: 20px;
+            transition: all 0.3s;
+        }
+
+        .folder-btn:hover {
+            background: #059669;
+        }
+
+        /* Navigation tabs - HORIZONTAL BAR */
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            margin: 0;
+            background: #f5f5f5;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #ddd;
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .nav-tabs button {
+            flex: 1;
+            min-width: 120px;
+            padding: 14px 16px;
+            border: none;
+            border-bottom: 3px solid transparent;
+            background: #f5f5f5;
+            color: #333;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 0;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-tabs button:hover {
+            background: #eee;
+            color: #1a3a52;
+        }
+
+        .nav-tabs button.active {
+            background: white;
+            color: #1a3a52;
+            border-bottom-color: #1a3a52;
+            font-weight: 600;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        /* Panel */
+        .panel {
+            background: white;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .panel-header {
+            background: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .panel-content {
+            padding: 16px;
+        }
+
+        /* Metrics row */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .metric-box {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+            border-radius: 3px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a3a52;
+            margin-bottom: 2px;
+        }
+
+        .metric-unit {
+            font-size: 11px;
+            color: #888;
+        }
+
+        /* Section title */
+        .section-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+            margin: 16px 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #1a3a52;
+        }
+
+        /* Key metrics */
+        .key-metrics {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .key-metric {
+            background: #f5f5f5;
+            padding: 12px;
+            border-left: 4px solid #0066cc;
+            border-radius: 0;
+        }
+
+        .key-metric-label {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .key-metric-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .key-metric-sub {
+            font-size: 11px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* Description box */
+        .description-box {
+            background: #f0f5fb;
+            border: 1px solid #d0d8e8;
+            border-left: 4px solid #0066cc;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 0;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .description-box p {
+            margin-bottom: 6px;
+        }
+
+        /* Performance bars */
+        .performance-bars {
+            margin: 12px 0;
+        }
+
+        .perf-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .perf-label {
+            font-size: 12px;
+            width: 45%;
+        }
+
+        .perf-bar {
+            width: 40%;
+            height: 18px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 8px;
+        }
+
+        .perf-bar-fill {
+            height: 100%;
+            background: #0066cc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .perf-value {
+            font-size: 12px;
+            font-weight: bold;
+            width: 8%;
+            text-align: right;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 12px;
+        }
+
+        th {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        /* Grid layout for side-by-side content */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 12px 0;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .column {
+            background: #fafafa;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+        }
+
+        /* Activity/Faaliyet box */
+        .activity-box {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .activity-box:hover {
+            background: #f9f9f9;
+            border-color: #0066cc;
+        }
+
+        .activity-header {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            gap: 4px;
+            font-size: 12px;
+            align-items: center;
+        }
+
+        .activity-toggle {
+            cursor: pointer;
+            color: #0066cc;
+            font-weight: bold;
+        }
+
+        .activity-content {
+            display: none;
+            margin-top: 8px;
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .activity-content.show {
+            display: block;
+        }
+
+        .activity-item {
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        /* Badge/Tag */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 2px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .badge.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge.danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Info notice */
+        .info-notice {
+            background: #e8f4f8;
+            border-left: 4px solid #0099cc;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 12px;
+            border-radius: 0;
+        }
+
+        .info-notice strong {
+            color: #0066cc;
+        }
+
+        /* Risk analysis */
+        .risk-box {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            margin: 8px 0;
+            border-left: 4px solid;
+        }
+
+        .risk-box.high {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .risk-box.medium {
+            border-left-color: #ff9800;
+            background: #fffaf0;
+        }
+
+        .risk-box.low {
+            border-left-color: #28a745;
+            background: #f5fff5;
+        }
+
+        .risk-label {
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .risk-description {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        /* Charts placeholder */
+        .chart-container {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 12px 0;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+        }
+
+        /* Expandable */
+        .expandable {
+            border: 1px solid #ddd;
+            margin-bottom: 8px;
+            background: white;
+        }
+
+        .expandable-header {
+            padding: 12px;
+            background: #f5f5f5;
+            cursor: pointer;
+            font-weight: 500;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .expandable-header:hover {
+            background: #eee;
+        }
+
+        .expandable-header.active {
+            background: #e8f4f8;
+            color: #0066cc;
+        }
+
+        .expandable-content {
+            display: none;
+            padding: 12px;
+            border-top: 1px solid #ddd;
+        }
+
+        .expandable-content.show {
+            display: block;
+        }
+
+        .expand-icon {
+            color: #0066cc;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .expandable-header.active .expand-icon {
+            transform: rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .metrics-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .key-metrics {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .three-column {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-tabs button {
+                flex: 0 1 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .metrics-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .key-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .three-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            <h1>XYZ Belediyesi — Stratejik Yönetim Paneli</h1>
+            <p>Ana-Sayfa | Stratejik Hedef İzleme | Ulaşım ve Hareketelilik Ekseni</p>
+        </div>
+        <div class="header-right">
+            <p>Stratejik Gelişiltitime Müd.</p>
+            <p>Tarafından Hazırlanan Rapor</p>
+            <button class="folder-btn" onclick="openProjectsFolder()">📁 Tüm Projeler</button>
+        </div>
+    </div>
+
+    <!-- Navigation Bar - HORIZONTAL AT TOP -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" data-tab="dashboard">Genel Durum</button>
+        <button class="tab-btn" data-tab="strategic">Stratejik Hedef</button>
+        <button class="tab-btn" data-tab="projects">Projeler</button>
+        <button class="tab-btn" data-tab="kpi">KPI Analizi</button>
+        <button class="tab-btn" data-tab="budget">Bütçe</button>
+        <button class="tab-btn" data-tab="resources">Personel</button>
+    </div>
+
+    <!-- Content Container -->
+    <div class="container">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="content active">
+            <div class="panel">
+                <div class="panel-header">Genel Durum - Trafik Yönetimi Hedefi Özeti</div>
+                <div class="panel-content">
+                    <div class="metrics-row">
+                        <div class="metric-box">
+                            <div class="metric-label">Hedef İlerleme</div>
+                            <div class="metric-value">%36</div>
+                            <div class="metric-unit">Trafik azalma hedefi</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Toplam Bütçe</div>
+                            <div class="metric-value">850 Mn</div>
+                            <div class="metric-unit">TL | 45% kullanıldı</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Aktif Projeler</div>
+                            <div class="metric-value">24</div>
+                            <div class="metric-unit">8 Tamamlandı, 3 Risk</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">YZ Uyarıları</div>
+                            <div class="metric-value">2</div>
+                            <div class="metric-unit">1 Kritik, 1 Orta</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Proje Durumu Özeti</div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Proje Adı</th>
+                                <th>Birim</th>
+                                <th>İlerleme</th>
+                                <th>Bütçe</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Trafik Yönetim Sistemi</strong></td>
+                                <td>Trafik Müdürlüğü</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 120px; display: inline-block; margin: 0;">
+                                        <div class="perf-bar-fill" style="width: 65%; background: #ff9800;">65%</div>
+                                    </div>
+                                </td>
+                                <td>94/180 Mn.</td>
+                                <td><span class="badge warning">Devam Ediyor</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bisiklet Yolu Ağı</strong></td>
+                                <td>Şehircilik</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 120px; display: inline-block; margin: 0;">
+                                        <div class="perf-bar-fill" style="width: 88%; background: #28a745;">88%</div>
+                                    </div>
+                                </td>
+                                <td>170/250 Mn.</td>
+                                <td><span class="badge success">Başarılı</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Toplu Taşıma Genişleme</strong></td>
+                                <td>Ulaştırma</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 120px; display: inline-block; margin: 0;">
+                                        <div class="perf-bar-fill" style="width: 52%;">52%</div>
+                                    </div>
+                                </td>
+                                <td>118/420 Mn.</td>
+                                <td><span class="badge info">Planlama</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="section-title">Kritik Uyarılar</div>
+
+                    <div class="risk-box high">
+                        <div class="risk-label">🔴 Yüksek Risk - Sokak Yayalatırma Projesi</div>
+                        <div class="risk-description">Bütçe %18 taşmış (62 Mn. TL), tamamlanma tarihi Eylül 2027'ye kaymış</div>
+                    </div>
+
+                    <div class="risk-box medium">
+                        <div class="risk-label">🟠 Orta Risk - Trafik Yönetim Sistemi</div>
+                        <div class="risk-description">Test aşaması başlanmamış, malzeme tedariği gecikmiş</div>
+                    </div>
+
+                    <div class="risk-box low">
+                        <div class="risk-label">🟢 Başarılı - Bisiklet Yolu Ağı</div>
+                        <div class="risk-description">Plandan 2 ay önde, bütçe %8 tasarrufla ilerliyor</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategic Goal Tab -->
+        <div id="strategic" class="content">
+            <div class="panel">
+                <div class="panel-header">Stratejik Hedef Detayı - Trafik Yönetimi ve Ulaşım Etkinliği</div>
+                <div class="panel-content">
+                    <div class="section-title">Hedef Tanımı</div>
+
+                    <div class="description-box">
+                        <p><strong>Vizyon:</strong> Sürdürülebilir ve erişilebilir şehir ulaşımı</p>
+                        <p><strong>Stratejik Amaç:</strong> H2.3 - Ulaşım ve Hareketelilik Ekseni</p>
+                        <p><strong>Hedef:</strong> Trafik Yoğunluğunun %25 Azaltılması (2026 Sonu)</p>
+                    </div>
+
+                    <div class="section-title">Ana KPI - Trafik Yoğunluğu (%)</div>
+
+                    <div class="key-metrics">
+                        <div class="key-metric">
+                            <div class="key-metric-label">Baseline (Ocak)</div>
+                            <div class="key-metric-value">100%</div>
+                        </div>
+                        <div class="key-metric">
+                            <div class="key-metric-label">Hedef (Aralık)</div>
+                            <div class="key-metric-value" style="color: #28a745;">75%</div>
+                        </div>
+                        <div class="key-metric">
+                            <div class="key-metric-label">Mevcut (Nisan)</div>
+                            <div class="key-metric-value" style="color: #ff9800;">86%</div>
+                        </div>
+                        <div class="key-metric">
+                            <div class="key-metric-label">Sapma</div>
+                            <div class="key-metric-value" style="color: #28a745;">-14%</div>
+                        </div>
+                        <div class="key-metric">
+                            <div class="key-metric-label">YZ Tahmini</div>
+                            <div class="key-metric-value" style="color: #0066cc;">%92</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Alt Performans Göstergeler (KPI)</div>
+
+                    <div class="performance-bars">
+                        <div class="perf-item">
+                            <div class="perf-label">Elektronik Takip Noktaları</div>
+                            <div class="perf-bar">
+                                <div class="perf-bar-fill" style="width: 84%;">84%</div>
+                            </div>
+                            <div class="perf-value">42/50</div>
+                        </div>
+                        <div class="perf-item">
+                            <div class="perf-label">Bisiklet Yolu Uzunluğu</div>
+                            <div class="perf-bar">
+                                <div class="perf-bar-fill warning" style="width: 80%; background: #ff9800;">80%</div>
+                            </div>
+                            <div class="perf-value">48/60 km</div>
+                        </div>
+                        <div class="perf-item">
+                            <div class="perf-label">Toplu Taşıma Araçları</div>
+                            <div class="perf-bar">
+                                <div class="perf-bar-fill" style="width: 77%;">77%</div>
+                            </div>
+                            <div class="perf-value">115/150</div>
+                        </div>
+                        <div class="perf-item">
+                            <div class="perf-label">Hız Kontrol İstasyonları</div>
+                            <div class="perf-bar">
+                                <div class="perf-bar-fill" style="width: 90%;">90%</div>
+                            </div>
+                            <div class="perf-value">27/30</div>
+                        </div>
+                    </div>
+
+                    <div class="info-notice">
+                        <strong>🤖 YZ Analizi:</strong> Mevcut trend (aylık -4%) devam ederse, Aralık 2026'da %75 hedefine ulaşılacaktır. Güven aralığı: %70-%80. Başarı olasılığı: %92
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Tab -->
+        <div id="projects" class="content">
+            <div class="panel">
+                <div class="panel-header">Projeler ve Faaliyetler Yönetimi</div>
+                <div class="panel-content">
+                    <div class="section-title">Trafik Hedefi Altında Projeler</div>
+
+                    <!-- Project 1 -->
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <div>
+                                <strong>Proje 1: Trafik Yönetim Sistemi (Elektronik)</strong><br>
+                                <span style="font-size: 11px; color: #666;">Trafik Müdürlüğü | Bütçe: 180 Mn. TL | Nisan - Ağustos 2026</span>
+                            </div>
+                            <span class="expand-icon">→</span>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="key-metrics">
+                                <div class="key-metric" style="border-left-color: #ff9800;">
+                                    <div class="key-metric-label">İlerleme</div>
+                                    <div class="key-metric-value" style="color: #ff9800;">65%</div>
+                                </div>
+                                <div class="key-metric">
+                                    <div class="key-metric-label">Bütçe Kullanımı</div>
+                                    <div class="key-metric-value">52%</div>
+                                </div>
+                                <div class="key-metric" style="border-left-color: #ff9800;">
+                                    <div class="key-metric-label">Durum</div>
+                                    <div class="key-metric-value" style="font-size: 14px; color: #ff9800;">⚠️ Risk</div>
+                                </div>
+                            </div>
+
+                            <div class="section-title" style="margin-top: 12px;">Aşamalar (Farklı Birimler Sorumluluğunda)</div>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Aşama</th>
+                                        <th>Sorumlu Birim</th>
+                                        <th>İlerleme</th>
+                                        <th>Durum</th>
+                                        <th>Sorumlu</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1.1 - Yazılım Tasarımı</td>
+                                        <td>BT Şubesi</td>
+                                        <td>
+                                            <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                                <div class="perf-bar-fill" style="width: 100%;">100%</div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge success">Tamamlandı</span></td>
+                                        <td>Ahmet Yılmaz</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1.2 - Donanım Kurulumu</td>
+                                        <td>İnşaat Şubesi</td>
+                                        <td>
+                                            <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                                <div class="perf-bar-fill" style="width: 75%; background: #ff9800;">75%</div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge warning">Devam Ediyor</span></td>
+                                        <td>Fatih Kaya</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1.3 - Sistem Entegrasyonu</td>
+                                        <td>BT Şubesi</td>
+                                        <td>
+                                            <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                                <div class="perf-bar-fill" style="width: 45%;">45%</div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge warning">Devam Ediyor</span></td>
+                                        <td>Zeynep Şahin</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1.4 - Test & Kalite Kontrol</td>
+                                        <td>Trafik Müd.</td>
+                                        <td>
+                                            <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                                <div class="perf-bar-fill" style="width: 25%; background: #dc3545;">25%</div>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge danger">Henüz Başlanmadı</span></td>
+                                        <td>Mehmet Demir</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="risk-box high" style="margin-top: 12px;">
+                                <div class="risk-label">⚠️ Uyarı</div>
+                                <div class="risk-description">Aşama 1.4 test başlanmamış. Donanım kurulumunun hızlandırılması kritiktir.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <div>
+                                <strong>Proje 2: Bisiklet Yolu Ağı Genişletme</strong><br>
+                                <span style="font-size: 11px; color: #666;">Şehircilik ve Peyzaj | Bütçe: 250 Mn. TL | Mart - Kasım 2026</span>
+                            </div>
+                            <span class="expand-icon">→</span>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="key-metrics">
+                                <div class="key-metric" style="border-left-color: #28a745;">
+                                    <div class="key-metric-label">İlerleme</div>
+                                    <div class="key-metric-value" style="color: #28a745;">88%</div>
+                                </div>
+                                <div class="key-metric" style="border-left-color: #28a745;">
+                                    <div class="key-metric-label">Bütçe Kullanımı</div>
+                                    <div class="key-metric-value" style="color: #28a745;">68%</div>
+                                </div>
+                                <div class="key-metric" style="border-left-color: #28a745;">
+                                    <div class="key-metric-label">Durum</div>
+                                    <div class="key-metric-value" style="font-size: 14px; color: #28a745;">✅ Başarılı</div>
+                                </div>
+                            </div>
+
+                            <div class="info-notice" style="margin-top: 12px;">
+                                <strong>✅ Başarı Notu:</strong> Proje plandan 2 ay önde ve bütçe %8 tasarrufla ilerlemektedir.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="expandable">
+                        <div class="expandable-header" onclick="toggleExpand(this)">
+                            <div>
+                                <strong>Proje 3: Toplu Taşıma Araç Filosu Genişletme</strong><br>
+                                <span style="font-size: 11px; color: #666;">Ulaştırma Dairesi | Bütçe: 420 Mn. TL | Mayıs 2026 - Mart 2027</span>
+                            </div>
+                            <span class="expand-icon">→</span>
+                        </div>
+                        <div class="expandable-content">
+                            <div class="key-metrics">
+                                <div class="key-metric" style="border-left-color: #ff9800;">
+                                    <div class="key-metric-label">İlerleme</div>
+                                    <div class="key-metric-value" style="color: #ff9800;">52%</div>
+                                </div>
+                                <div class="key-metric" style="border-left-color: #ff9800;">
+                                    <div class="key-metric-label">Bütçe Kullanımı</div>
+                                    <div class="key-metric-value" style="color: #ff9800;">43%</div>
+                                </div>
+                                <div class="key-metric" style="border-left-color: #ff9800;">
+                                    <div class="key-metric-label">Durum</div>
+                                    <div class="key-metric-value" style="font-size: 14px; color: #ff9800;">⚠️ Gecikmeli</div>
+                                </div>
+                            </div>
+
+                            <div class="risk-box medium" style="margin-top: 12px;">
+                                <div class="risk-label">⚠️ Tedarikçi Gecikmesi</div>
+                                <div class="risk-description">Araç teslimi 1 ay gecikmeli. Haziran başında teslim beklenmektedir.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Tab -->
+        <div id="kpi" class="content">
+            <div class="panel">
+                <div class="panel-header">KPI Takibi - Trafik Yönetimi Hedefi</div>
+                <div class="panel-content">
+                    <div class="section-title">Aylık KPI Değerleri (Trafik Yoğunluğu %)</div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ay</th>
+                                <th>Değer</th>
+                                <th>Trend</th>
+                                <th>Hedef'den Sapma</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ocak 2026</td>
+                                <td><strong>100%</strong></td>
+                                <td>—</td>
+                                <td>+25% (Baseline)</td>
+                                <td><span class="badge info">Başlangıç</span></td>
+                            </tr>
+                            <tr>
+                                <td>Şubat 2026</td>
+                                <td><strong>96%</strong></td>
+                                <td>⬇️ -4%</td>
+                                <td>+21%</td>
+                                <td><span class="badge warning">İlerleme</span></td>
+                            </tr>
+                            <tr>
+                                <td>Mart 2026</td>
+                                <td><strong>90%</strong></td>
+                                <td>⬇️ -6%</td>
+                                <td>+15%</td>
+                                <td><span class="badge success">Olumlu</span></td>
+                            </tr>
+                            <tr>
+                                <td>Nisan 2026</td>
+                                <td><strong>86%</strong></td>
+                                <td>⬇️ -4%</td>
+                                <td>+11%</td>
+                                <td><span class="badge success">Olumlu</span></td>
+                            </tr>
+                            <tr>
+                                <td>Mayıs 2026 (YZ Tahmini)</td>
+                                <td><strong>82%</strong></td>
+                                <td>⬇️ -4%</td>
+                                <td>+7%</td>
+                                <td><span class="badge info">Tahmini</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-notice">
+                        <strong>🤖 Yapay Zeka Analizi:</strong><br>
+                        Mevcut aylık -4% azalma trendi devam ederse, Aralık 2026'da %75 hedefine ulaşılacaktır.<br>
+                        Model güven aralığı: %70-%80<br>
+                        <strong style="color: #28a745;">Hedef başarısı olasılığı: %92</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Budget Tab -->
+        <div id="budget" class="content">
+            <div class="panel">
+                <div class="panel-header">Bütçe Takibi ve Mali Analiz</div>
+                <div class="panel-content">
+                    <div class="metrics-row">
+                        <div class="metric-box">
+                            <div class="metric-label">Toplam Bütçe</div>
+                            <div class="metric-value">850</div>
+                            <div class="metric-unit">Mn. TL</div>
+                        </div>
+                        <div class="metric-box" style="border-left: 3px solid #28a745;">
+                            <div class="metric-label">Harcanan</div>
+                            <div class="metric-value" style="color: #28a745;">382</div>
+                            <div class="metric-unit">Mn. TL (45%)</div>
+                        </div>
+                        <div class="metric-box" style="border-left: 3px solid #ff9800;">
+                            <div class="metric-label">Kalan Bütçe</div>
+                            <div class="metric-value" style="color: #ff9800;">468</div>
+                            <div class="metric-unit">Mn. TL (55%)</div>
+                        </div>
+                        <div class="metric-box" style="border-left: 3px solid #dc3545;">
+                            <div class="metric-label">Taşan Proje</div>
+                            <div class="metric-value" style="color: #dc3545;">1</div>
+                            <div class="metric-unit">Sokak Yayalatırma</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Projeler Bazında Bütçe Durumu</div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Proje</th>
+                                <th>Onaylı Bütçe</th>
+                                <th>Harcanan</th>
+                                <th>Kullanım %</th>
+                                <th>Durum</th>
+                                <th>Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Trafik Yönetim Sistemi</strong></td>
+                                <td>180 Mn. TL</td>
+                                <td>94 Mn. TL</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 100px; display: inline-block;">
+                                        <div class="perf-bar-fill" style="width: 52%;">52%</div>
+                                    </div>
+                                </td>
+                                <td><span class="badge success">Normal</span></td>
+                                <td style="color: #28a745; font-weight: bold;">Düşük</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bisiklet Yolu Ağı</strong></td>
+                                <td>250 Mn. TL</td>
+                                <td>170 Mn. TL</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 100px; display: inline-block;">
+                                        <div class="perf-bar-fill" style="width: 68%;">68%</div>
+                                    </div>
+                                </td>
+                                <td><span class="badge success">Normal</span></td>
+                                <td style="color: #28a745; font-weight: bold;">Düşük</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Toplu Taşıma Araçları</strong></td>
+                                <td>420 Mn. TL</td>
+                                <td>118 Mn. TL</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 100px; display: inline-block;">
+                                        <div class="perf-bar-fill" style="width: 28%;">28%</div>
+                                    </div>
+                                </td>
+                                <td><span class="badge info">Planlama</span></td>
+                                <td style="color: #28a745; font-weight: bold;">Düşük</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="risk-box high">
+                        <div class="risk-label">🔴 KRİTİK: Sokak Yayalatırma Projesi</div>
+                        <div class="risk-description">
+                            <strong>Onaylı Bütçe:</strong> 350 Mn. TL<br>
+                            <strong>Harcanan:</strong> 412 Mn. TL<br>
+                            <strong>Taşma Miktarı:</strong> +62 Mn. TL (%18)<br>
+                            <strong>YZ Tahmini Tamamlanma:</strong> Eylül 2027 (15 ay gecikmeli)<br>
+                            <br>
+                            <strong>Analiz:</strong> Mevcut harcama hızı devam ederse, +62 Mn. TL daha bütçe harcayacak ve 15 ay gecikecektir.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Tab -->
+        <div id="resources" class="content">
+            <div class="panel">
+                <div class="panel-header">İnsan Kaynakları ve Mesai Takibi</div>
+                <div class="panel-content">
+                    <div class="metrics-row">
+                        <div class="metric-box">
+                            <div class="metric-label">Toplam Çalışan</div>
+                            <div class="metric-value">156</div>
+                            <div class="metric-unit">personel</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Projelere Atanan</div>
+                            <div class="metric-value">142</div>
+                            <div class="metric-unit">personel</div>
+                        </div>
+                        <div class="metric-box" style="border-left: 3px solid #28a745;">
+                            <div class="metric-label">Kullanım Oranı</div>
+                            <div class="metric-value" style="color: #28a745;">91%</div>
+                            <div class="metric-unit">ortalama</div>
+                        </div>
+                        <div class="metric-box" style="border-left: 3px solid #ff9800;">
+                            <div class="metric-label">Ek Mesai Saati</div>
+                            <div class="metric-value" style="color: #ff9800;">245</div>
+                            <div class="metric-unit">saat/ay</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">Birim Bazında Personel Dağılımı</div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Birim</th>
+                                <th>Toplam</th>
+                                <th>Aktif Proje</th>
+                                <th>Kullanım %</th>
+                                <th>Ek Mesai</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Trafik Müdürlüğü</strong></td>
+                                <td>32</td>
+                                <td>28</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                        <div class="perf-bar-fill" style="width: 87%; background: #ff9800;">87%</div>
+                                    </div>
+                                </td>
+                                <td>82 saat</td>
+                                <td><span class="badge warning">Normal</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>BT Şubesi</strong></td>
+                                <td>18</td>
+                                <td>16</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                        <div class="perf-bar-fill" style="width: 89%; background: #dc3545;">89%</div>
+                                    </div>
+                                </td>
+                                <td>48 saat</td>
+                                <td><span class="badge danger">Yüksek Yük</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Şehircilik Şubesi</strong></td>
+                                <td>24</td>
+                                <td>21</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                        <div class="perf-bar-fill" style="width: 88%;">88%</div>
+                                    </div>
+                                </td>
+                                <td>67 saat</td>
+                                <td><span class="badge success">Normal</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>İnşaat Şubesi</strong></td>
+                                <td>41</td>
+                                <td>38</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                        <div class="perf-bar-fill" style="width: 93%;">93%</div>
+                                    </div>
+                                </td>
+                                <td>48 saat</td>
+                                <td><span class="badge success">Normal</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ulaştırma Dairesi</strong></td>
+                                <td>41</td>
+                                <td>39</td>
+                                <td>
+                                    <div class="perf-bar" style="width: 80px; display: inline-block;">
+                                        <div class="perf-bar-fill" style="width: 95%;">95%</div>
+                                    </div>
+                                </td>
+                                <td>0 saat</td>
+                                <td><span class="badge success">Normal</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="risk-box medium">
+                        <div class="risk-label">⚠️ BT Şubesi Uyarısı</div>
+                        <div class="risk-description">İş yükü %89 oranında yüksektir. 2-3 ek personel atanması önerilmektedir.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openProjectsFolder() {
+            const outputsPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+            window.open(outputsPath, '_blank');
+        }
+
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.nav-tabs button');
+            const contentDivs = document.querySelectorAll('.content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    contentDivs.forEach(div => div.classList.remove('active'));
+
+                    // Add active class to clicked button and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    const targetContent = document.getElementById(tabId);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        function toggleExpand(header) {
+            header.classList.toggle('active');
+            const content = header.nextElementSibling;
+            if (content) {
+                content.classList.toggle('show');
+            }
+        }
+    </script>
+</body>
+</html>
