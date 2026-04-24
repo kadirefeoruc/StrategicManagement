@@ -1,0 +1,2 @@
+# StrategicManagement
+Strategical Management
